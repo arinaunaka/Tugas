@@ -8,5 +8,5 @@ def show_catalog(request):
     'list_katalog': data_katalog,
     'nama': 'Arina Aunaka',
     'npm': '2106638690',
-}
+    }
     return render(request, "katalog.html", context)

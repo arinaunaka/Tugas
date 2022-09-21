@@ -1,0 +1,112 @@
+[
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":1,
+        "fields":{
+            "watched":true,
+            "title":"Mencuri Raden Saleh",
+            "rating":4,
+            "release_date":"2022-08-25",
+            "review": "Mencuri Raden Saleh is the best Indonesian film in 2022 so far."
+        }
+    },    
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":2,
+        "fields":{
+            "watched":false,
+            "title":"Ngeri Ngeri Sedap",
+            "rating":5,
+            "release_date":"2022-06-02",
+            "review":"A very good family drama film, there are so many lessons to be learned from this film."
+        }
+    },
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":3,
+        "fields":{
+            "watched":true,
+            "title":"Nanti Kita Cerita Tentang Hari Ini",
+            "rating":5,
+            "release_date":"2020-01-02",
+            "review":"Neat storytelling, good music and beautiful cinematography."
+        }
+    },    
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":4,
+        "fields":{
+            "watched":true,
+            "title":"Train to Busan",
+            "rating":4,
+            "release_date":"2016-08-31",
+            "review":"If you love thrillers and zombie flicks, then you are in for a ride with this one."
+        }
+    },
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":5,
+        "fields":{
+            "watched":true,
+            "title":"Parasite",
+            "rating":5,
+            "release_date":"2019-06-24",
+            "review":"I am remarkably stingy with my 10/10 ratings. I'll be the first person to acknowledge this."
+        }
+    },    
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":6,
+        "fields":{
+            "watched":false,
+            "title":"Seoul Vibe",
+            "rating":3,
+            "release_date":"2022-08-26",
+            "review":"The real dissapointement come from the chasing and racing parts. It feels too fake."
+        }
+    },   
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":7,
+        "fields":{
+            "watched":true,
+            "title":"On Your Wedding Day",
+            "rating":4,
+            "release_date":"2018-09-03",
+            "review":"Oh my god, it's such an excellent rom com with dramatic moments."
+        }
+    },     
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":8,
+        "fields":{
+            "watched":false,
+            "title":"Interstellar",
+            "rating":5,
+            "release_date":"2014-11-06",
+            "review":"This movie was the best written, acted, visual effected, etc. movie."
+        }
+    },
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":9,
+        "fields":{
+            "watched":false,
+            "title":"Minions: The Rise of Gru",
+            "rating":4,
+            "release_date":"2022-06-29",
+            "review":"This movie is absolutely hilarious. I was literally in tears in some scenes."
+        }
+    },
+    {
+        "model":"mywatchlist.mywatchlistitem",
+        "pk":10,
+        "fields":{
+            "watched":true,
+            "title":"The Princess Diaries",
+            "rating":5,
+            "release_date":"2001-07-29",
+            "review":"I really enjoyed this movie. It was fun to see a fairly clean movie that was fun to watch."
+        }
+    }
+]

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+    <table style="width:100%">
+    <tr>
+      <th>Watched</th>
+      <th>Title</th>
+      <th>Rating</th>
+      <th>Release Date</th>
+      <th>Review</th>
+    </tr>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% for movie in mywatchlist %}
+    <tr>
+        <th>{{movie.watched}}</th>
+        <th>{{movie.title}}</th>
+        <th>{{movie.rating}}</th>
+        <th>{{movie.release_date}}</th>
+        <th>{{movie.review}}</th>
+    </tr>
+    {% endfor %}
+    </table>
+
+ {% endblock content %}
