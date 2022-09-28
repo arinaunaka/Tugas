@@ -1,10 +1,13 @@
-Link Heroku: 
+Link Heroku: [Tugas 4 - Arina Aunaka](https://tugas3arinaaunaka.herokuapp.com/todolist/)
 
 ***Apa kegunaan `{% csrf_token %}` pada elemen `<form>`? Apa yang terjadi apabila tidak ada potongan kode tersebut pada elemen `<form>`?***
+{% csrf_token % berguna sebagai perlindungan bawaan dari Django terhadap sebagian besar jenis serangan Cross Site Request Forgery (CSRF). Jika potongan kode tersebut tidak ada, maka ...
 
 ***Apakah kita dapat membuat elemen `<form>` secara manual (tanpa menggunakan generator seperti `{{ form.as_table }}`)? Jelaskan secara gambaran besar bagaimana cara membuat `<form>` secara manual.***
 
+
 ***Jelaskan proses alur data dari submisi yang dilakukan oleh pengguna melalui HTML form, penyimpanan data pada database, hingga munculnya data yang telah disimpan pada template HTML.***
+
 
 ***Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.***
 1. Membuat suatu aplikasi baru bernama todolist di proyek tugas Django yang sudah digunakan sebelumnya.
@@ -22,16 +25,13 @@ Link Heroku:
 > - Logout: Buat fungsi dengan nama logout_user dengan parameter request pada views.py melakukan mekanisme logout dengan menggunakan function logout(request) dan langsung diarahkan ke halaman login, kemudian tambahkan button logout pada todolist.html, lalu tambahkan `path('logout/', logout_user, name='logout'),` ke dalam urlpatterns dalam urls.py.
 
 5. Membuat halaman utama todolist yang memuat username pengguna, tombol Tambah Task Baru, tombol logout, serta tabel berisi tanggal pembuatan task, judul task, dan deskripsi task.
-> 
+> Membuat todolist.html yang akan ditampilkan ketika path `/todolist` dibuka. Untuk memuat username pengguna, panggil `user.get_username` untuk mengembalikan username user. Untuk memuat tombol Tambah Task Baru, buat elemen button menggunakan tag `<button></button>` yang bertuliskan "Create New Task" dan ketika diklik akan redirect ke path `/todolist/create-task`. Untuk memuat tombol logout, buat elemen button menggunakan tag `<button></button>` yang bertuliskan "Logout" dan ketika diklik akan redirect ke path `/todolist/logout`. Untuk memuat tabel, buat elemen table menggunakan tag `<table></table>` kemudian set table headernya dengan Created time, Title, dan Description, setelah itu set table datanya dengan looping pada data Model. 
 
 6. Membuat halaman form untuk pembuatan task. Data yang perlu dimasukkan pengguna hanyalah judul task dan deskripsi task.
-> 
+> Buat file form.py yang memuat class ToDoForm dengan parameter class Form dari module forms Django. class berisikan title dan description dengan charField. Kemudian, buat function create_task yang menerima parameter request pada views.py, buat instance dari ToDoForm dengan parameter request.POST, jika form yang diisi valid (tidak ada error), maka title, description, dan user pada model akan dibuat dan disimpan, setelah itu mengembalikan message dan redirect kembali ke path `/todolist`. Form tersebut dimasukkan ke dalam context dan ikut dirender bersama file createtask.html, yang akan menambilkan form sebagai tabel dengan `{{ form.as_table }}`.
 
 7. Membuat routing sehingga beberapa fungsi dapat diakses melalui URL berikut
 > Tambahkan path url: `path('', show_todolist, name='show_todolist'),`, `path('register/', register, name='register'),`, `path('login/', login_user, name='login'),`, `path('logout/', logout_user, name='logout'),`, ` path('create-task/', create_task, name='create_task'),` ke dalam urlpatterns untuk mengakses fungsi yang sudah diimpor pada urls.py.
 
 8. Melakukan deployment ke Heroku terhadap aplikasi yang sudah kamu buat sehingga nantinya dapat diakses oleh teman-temanmu melalui Internet.
 > Pastikan file Procfile, dpl.yml, dan .gitignore sudah ada dan telah melakukan add, commit, push ke GitHub untuk menyimpan perubahan. Setelah aplikasi siap untuk di-deploy, pastikan API key Heroku telah disimpan pada Secrets GitHub. Setelah disimpan, buka tab GitHub Actions dan jalankan kembali workflow yang gagal.
-
-9. Membuat dua akun pengguna dan tiga dummy data menggunakan model Task pada akun masing-masing di situs web Heroku.
->

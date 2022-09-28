@@ -1,3 +1,4 @@
+from os import stat
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +9,18 @@ from todolist.models import Task
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
+    status = ""
     data_task = Task.objects.filter(user=request.user).all()
+
+    for task in data_task:
+        if (task.is_finished):
+            status = "Finished"
+        else:
+            status = "Not finished"
+
     context = {
     'list_task': data_task,
+    'status': status,
     }
     return render(request, "todolist.html", context)
 

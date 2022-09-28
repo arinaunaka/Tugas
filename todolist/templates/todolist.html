@@ -69,16 +69,43 @@
      <th style="background-color:rgb(190, 184, 140);">Created time</th>
      <th style="background-color:rgb(190, 184, 140);">Title</th>
      <th style="background-color:rgb(190, 184, 140);">Description</th>
+     <th style="background-color:rgb(190, 184, 140);">Status</th>
+     <th style="background-color:rgb(190, 184, 140);"></th>
+     <th style="background-color:crimson"></th>
    </tr>
-   {% comment %} Add the data below this line {% endcomment %}
    {% for task in list_task %}
    <tr>
        <td>{{task.date}}</td>
        <td>{{task.title}}</td>
        <td>{{task.description}}</td>
+       <td style="text-align: center; width: 10%;">{{task.is_finished}}</td>
+       <td style="text-align: center; width: 12%;">
+        <button class="button" style="background-color: rgb(190, 184, 140); border-radius: 10px; color: white; padding: 5%;" onclick="changeStatus">Change Status</button>
+       </td>
+       <script>
+         function changeStatus() {
+           if (task.is_finished){
+             task.is_finished = false;
+           } else {
+             task.is_finished = true;
+           }
+        }
+       </script>       
+       <td style="text-align:center; width: 8%;">
+        <button class="button" style="background-color: crimson; border-radius: 10px; padding: 5%;" ondclick="remove" id="remove">Remove</button>
+      </td>
    </tr>
    {% endfor %}
  </table>
+
+
+ <script>
+    function remove() { 
+      let table = document.querySelector('table');
+      table.deleteRow(1);
+    }
+ </script> 
+
  <br>
  <button class="button button1" onclick="location.href='/todolist/create-task'">Create New Task</button>
  <button class="button button2" onclick="location.href='/todolist/logout'">Logout</button>
