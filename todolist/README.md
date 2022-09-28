@@ -1,15 +1,36 @@
+Nama: Arina Aunaka
+NPM: 2106638690
+Kelas: PBP - C
 Link Heroku: [Tugas 4 - Arina Aunaka](https://tugas3arinaaunaka.herokuapp.com/todolist/)
 
-***Apa kegunaan `{% csrf_token %}` pada elemen `<form>`? Apa yang terjadi apabila tidak ada potongan kode tersebut pada elemen `<form>`?***
-{% csrf_token % berguna sebagai perlindungan bawaan dari Django terhadap sebagian besar jenis serangan Cross Site Request Forgery (CSRF). Jika potongan kode tersebut tidak ada, maka ...
+**Apa kegunaan `{% csrf_token %}` pada elemen `<form>`? Apa yang terjadi apabila tidak ada potongan kode tersebut pada elemen `<form>`?**
+> {% csrf_token % berguna sebagai perlindungan bawaan dari Django terhadap sebagian besar jenis serangan Cross Site Request Forgery (CSRF). CRSF termasuk dalam serangan yang bekerja dengan mengimplementasikan permintaan yang sifatnya tidak sah selama tindakan web berlangsung. Penyerang biasanya membajak session untuk dapat mengubah IP adress user. Perubahan tersebut menuntun user masuk ke dalam situs web baru yang telah disiapkan penyerang, biasanya berupa link untuk mengirimkan formulir yang serupa dengan permintaan server, namun telah dimodifikasi. Dengan demikian, dapat disimpulkan bahwa, jika tidak ada potongan kode tersebut, maka web yang sedang membuka formulir akan menjadi rentan terhadap serangan SCRF yang sangat merugikan itu, user kehilangan kredensial akses terhadap penyerang.
 
-***Apakah kita dapat membuat elemen `<form>` secara manual (tanpa menggunakan generator seperti `{{ form.as_table }}`)? Jelaskan secara gambaran besar bagaimana cara membuat `<form>` secara manual.***
+**Apakah kita dapat membuat elemen `<form>` secara manual (tanpa menggunakan generator seperti `{{ form.as_table }}`)? Jelaskan secara gambaran besar bagaimana cara membuat `<form>` secara manual.**
+> Ya, kita dapat membuat elemen `<form>` secara manual (tanpa menggunakan generator seperti {{ form.as_table }}. Membuat elemen secara manual dapat dilakukan dengan cara berikut:
+```
+<form action="[URL DESTINATION]" method="[METHOD]">
+    {% csrf_token %}
+    <input type="[INPUT TYPE]" other attribute>
+    ...
+    ...
+    <input type="[INPUT TYPE]" other attribute>
+</form>
+```
 
+**Jelaskan proses alur data dari submisi yang dilakukan oleh pengguna melalui HTML form, penyimpanan data pada database, hingga munculnya data yang telah disimpan pada template HTML.**
+> 1. User meminta request dengan TyperAddress: http://host/path pada browser
+> 2. Browser menghasilkan HTTP Request ke http://host/path
+> 3. Server menerima HTTP Request dan mencari views.py yang sesuai untuk menangani permintaan
+> 4. Views.py yang sesuai akan menghasilkan halaman FORM HTML
+> 5. Halaman FORM yang dihasilkan views.py ditampilkan kepada user
+> 6. User mengisi dan mengumpulkan Form
+> 7. Browser menghasilkan HTTP Request, method, dan arguments ke URL tujuan berdasarkan HTML page FORM
+> 8. Server menerima HTTP Request dan mencari views.py yang sesuai untuk menangani permintaan
+> 9. Views.py yang sesuai akan melakukan sesuatu (data pada Form yang dikumpulkan akan disimpan dan dipetakan ke dalam Model sehingga dapat tersimpan pada database) dan menghasilkan output berupa render halaman HTML beserta data Form yang sudah disimpan dalam database
+> 10. Browser menampilkan halaman HTML yang mengandung data dari submisi kepada user
 
-***Jelaskan proses alur data dari submisi yang dilakukan oleh pengguna melalui HTML form, penyimpanan data pada database, hingga munculnya data yang telah disimpan pada template HTML.***
-
-
-***Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.***
+**Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
 1. Membuat suatu aplikasi baru bernama todolist di proyek tugas Django yang sudah digunakan sebelumnya.
 > Membuat django-app bernama todolist dengan perintah `python manage.py startapp todolist`
 

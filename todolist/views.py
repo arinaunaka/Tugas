@@ -1,4 +1,5 @@
-from os import stat
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -9,20 +10,41 @@ from todolist.models import Task
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
-    status = ""
-    data_task = Task.objects.filter(user=request.user).all()
+    finished_task = 0
+    notfinished_task = 0
+    message = ""
 
+    data_task = Task.objects.filter(user=request.user).all()
     for task in data_task:
         if (task.is_finished):
-            status = "Finished"
+            finished_task += 1
         else:
-            status = "Not finished"
+            notfinished_task += 1
+
+    if (finished_task >= notfinished_task and (finished_task + notfinished_task != 0)):
+        message = "Wow, you're doing great! ♡ ´･ᴗ･ `♡"
+    else:
+        message = "Keep going ฅ^•ﻌ•^ฅ..."
 
     context = {
     'list_task': data_task,
-    'status': status,
+    'message': message,
     }
     return render(request, "todolist.html", context)
+
+def status(request, id):
+    status = Task.objects.get(pk=id)
+    if status.is_finished:
+        status.is_finished = False
+    else:
+        status.is_finished = True
+    status.save()
+    return HttpResponseRedirect(reverse('todolist:show_todolist'))
+
+def delete(request, id):
+    delete = Task.objects.get(pk=id)
+    delete.delete()
+    return HttpResponseRedirect(reverse('todolist:show_todolist'))
 
 def register(request):
     form = UserCreationForm()
