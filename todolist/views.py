@@ -3,10 +3,11 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from todolist.form import ToDoForm
+from todolist.forms import ToDoForm
 from todolist.models import Task
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
@@ -46,18 +47,31 @@ def delete(request, id):
     delete.delete()
     return HttpResponseRedirect(reverse('todolist:show_todolist'))
 
-def register(request):
-    form = UserCreationForm()
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+def username_clean(request, username):  
+    username = username.lower()  
+    new = User.objects.filter(username = username)  
+    if new.count():
+        messages.info(request, "User already exist")
+        return None 
+    return username
 
-        if form.is_valid():
-            form.save()
+def clean_password2(request, password1, password2):   
+    if password1 and password2 and password1 != password2:
+        messages.info(request, "Password don't match")
+        return None  
+    return password2
+
+def register(request):
+    if request.method == "POST":
+        username = username_clean(request, request.POST.get('username'))
+        password = clean_password2(request, request.POST.get('password1'), request.POST.get('password2'))
+        
+        if username is not None and password is not None:
+            user = User.objects.create_user(username=username, password=password)
+            user.save()
             messages.success(request, 'Account has been created successfully')
             return redirect('todolist:login')
-    
-    context = {'form':form}
-    return render(request, 'register.html', context)
+    return render(request, 'register.html')
 
 def login_user(request):
     if request.method == 'POST':
@@ -77,17 +91,16 @@ def logout_user(request):
 
 def create_task(request):
     if request.method == "POST":
-        form = ToDoForm(request.POST)
-        if form.is_valid():
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        if title != "" and description != "":
             task = Task(
-                title=form.cleaned_data["title"],
-                description=form.cleaned_data["description"],
+                title=title,
+                description=description,
                 user=request.user,
             )
             task.save()
             messages.success(request, "Your task has been saved!")
             return redirect("todolist:show_todolist")
 
-    form = ToDoForm()
-    context = {"form": form}
-    return render(request, "createtask.html", context)
+    return render(request, "createtask.html")

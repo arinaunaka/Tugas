@@ -2,57 +2,80 @@
 
 {% block meta %}
 <title>Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    head, body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background: linear-gradient(-45deg, rgb(255, 157, 52), #e73c7e, #23a6d5, #23d5ab);
+	    background-size: 400% 400%;
+	    animation: gradient 15s ease infinite;    
+    }
+
+    @keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+    }
+    
+    .form-login {
+      max-width: 400px;
+      padding: 25px;
+    }
+
+    .form-login .form-floating:focus-within {
+      z-index: 1;
+    }
+
+    .form-login input[type="text"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .form-login input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+</style>
 {% endblock meta %}
 
 {% block content %}
-
-<div class = "login">
-
-    <h1 style="color:rgb(190, 184, 140);">Login ʕ￫ᴥ￩　ʔ</h1>
-
-    <html>
-        <head>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-        body {
-         font-family: 'Poppins', sans-serif;
-        }
-        </style>
-        </head>
-        <body>
-    </html>
-
+<main class="form-login w-100 m-auto text-center">
     <form method="POST" action="">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
+        <h1 class="h1 mb-3 fw-semibold">Login First.</h1>
 
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login" style="background-color: rgb(190, 184, 140); border-radius: 10px; padding: 4px 8px; font-family: 'Poppins', sans-serif; font-weight: bold;"></td>
-            </tr>
-        </table>
-    </form>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+            <label for="password">Password</label>
+        </div>
+        <input class="w-100 mt-2 btn btn-lg btn-dark" type="submit" value="Login"></input>
 
-    {% if messages %}
-        <ul>
+        {% if messages %}
             {% for message in messages %}
-                <li>{{ message }}</li>
+                <p class="text-muted">{{ message }}</p>
             {% endfor %}
-        </ul>
-    {% endif %}     
-    
-    <br>
-    Doesn't have an account? <a href="{% url 'todolist:register' %}" style="color:rgb(190, 184, 140);">Create Account</a>
-
-</div>
-
+        {% endif %}        
+        <p class="mt-3 mb-3">Doesn't have an account? <a href="{% url 'todolist:register' %}" style="color: white; font-weight: bolder;">Create Account</a></p>        
+    </form>  
+</main>
 {% endblock content %}
