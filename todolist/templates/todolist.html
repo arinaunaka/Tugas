@@ -46,7 +46,7 @@
 
 {% block content %}
 <main class="todolist m-auto">
-  <nav class="navbar navbar-dark bg-dark mb-4">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
     <div class="container-fluid">
         <h1 class="navbar-brand fw-bold mb-0">To Do List</h1>
         <button class="btn btn-outline-danger" type="button" onclick="location.href='/todolist/logout'">Logout</button>
@@ -58,27 +58,29 @@
       <button class="h5 p-2 mb-5 text-light bg-dark rounded-3 disabled">{{message}}</button>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-      {% for task in list_task %}
-      <div class="col">
-        <div class="card shadow" style="width:18rem;">
-          <div class="card-body">
-            <a href="{% url 'todolist:delete' task.id %}" class="delete" style="text-decoration:solid">🗑️</a>
-            <h5 class="card-title fw-semibold" style="max-width:14rem">{{task.title}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Created: {{task.date}}</h6>
-            <p class="card-text">{{task.description}}</p>
-          </div>
-          <div class="card-footer">
-            {% if task.is_finished %}
-            <p class="mt-1 mb-0" style="float:left">Finished</p>
-            {% else %}
-            <p class="mt-1 mb-0" style="float:left">Not Finished</p>
-            {% endif %}
-            <button type="button" class="btn btn-dark btn-sm" style="float:right"><a class="text-light" href="{% url 'todolist:status' task.id %}" style="text-decoration:solid">Change</a></button>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for task in list_task %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card shadow" style="width:18rem;">
+            <div class="card-body">
+              <a href="{% url 'todolist:delete' task.id %}" class="delete" style="text-decoration:solid">🗑️</a>
+              <h5 class="card-title fw-semibold" style="max-width:14rem">{{task.title}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Created: {{task.date}}</h6>
+              <p class="card-text">{{task.description}}</p>
+            </div>
+            <div class="card-footer">
+              {% if task.is_finished %}
+              <p class="mt-1 mb-0" style="float:left">Finished</p>
+              {% else %}
+              <p class="mt-1 mb-0" style="float:left">Not Finished</p>
+              {% endif %}
+              <button type="button" class="btn btn-dark btn-sm" style="float:right"><a class="text-light" href="{% url 'todolist:status' task.id %}" style="text-decoration:solid">Change</a></button>
+            </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
 
     <div class="button text-center">

@@ -27,12 +27,9 @@
 		  background-position: 0% 50%;
 	  }
     }
-
     .content {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 200px;
-    padding-right: 200px;
+      padding-top: 40px;
+      padding-bottom: 40px;
     }
 </style>
 
@@ -46,7 +43,7 @@
         <button class="btn btn-outline-danger" type="button" onclick="location.href='/todolist/logout'">Logout</button>
     </div>
   </nav>
-  <div class="content">
+  <div class="content container-fluid" style="min-width:50px; max-width: 800px">
     <h1 class="h1 mb-3 fw-semibold text-center">Create New Task</h1>
     <form method="POST" action="">
       {% csrf_token %}

@@ -4,10 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from todolist.forms import ToDoForm
 from todolist.models import Task
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
