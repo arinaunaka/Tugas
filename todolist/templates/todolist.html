@@ -41,6 +41,11 @@
     top: 10px;
     right: 10px;    
   }
+
+  .card:hover{
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  }
  </style>
 {% endblock meta %}
 
@@ -62,7 +67,7 @@
       <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for task in list_task %}
         <div class="col-12 col-md-6 col-lg-4">
-          <div class="card shadow" style="width:18rem;">
+          <div class="card shadow m-auto" style="width:18rem;">
             <div class="card-body">
               <a href="{% url 'todolist:delete' task.id %}" class="delete" style="text-decoration:solid">🗑️</a>
               <h5 class="card-title fw-semibold" style="max-width:14rem">{{task.title}}</h5>
