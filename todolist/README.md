@@ -112,5 +112,5 @@ Pada halaman todolist, saya juga menjadikan backgroundnya dengan animation-gradi
 ```
 3. ***Membuat keempat halaman yang dikustomisasi menjadi responsive.***
 ```
-
+Pada tugas ini, saya menggunakan CSS framwork, Bootstrap, yang pada dasarnya menyediakan layout dengan responsif. Mereka telah memiliki media queries dengan breakpoint yang telah ditentukan dengan ukuran xs, sm, md, dan lg. Namun, untuk lebih menyesuaikan dengan halaman yang saya miliki, saya juga membuat media queries sendiri dengan breakpoint yang saya sesuaikan dengan ukuran elemen yang digunakan.
 ```

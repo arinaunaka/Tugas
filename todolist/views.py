@@ -60,7 +60,7 @@ def clean_password2(request, password1, password2):
     return password2
 
 def register(request):
-    if request.method == "POST":
+    if request.method == "POST":      
         username = username_clean(request, request.POST.get('username'))
         password = clean_password2(request, request.POST.get('password1'), request.POST.get('password2'))
         

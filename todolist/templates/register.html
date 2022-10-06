@@ -17,7 +17,7 @@
       background: linear-gradient(-45deg, rgb(246, 145, 38), #e73c7e, #23a6d5, #23d5ab);
 	    background-size: 400% 400%;
 	    animation: gradient 15s ease infinite;
-	    height: 100vh;      
+      background-attachment: fixed;       
     }
 
     @keyframes gradient {
@@ -64,12 +64,10 @@
 {% endblock meta %}
 
 {% block content %}
-<main class="form-register w-100 m-auto text-center">
+<main class="container form-register w-100 m-auto text-center">
+  <h1 class="h1 mb-3 fw-semibold text-center">Let's Register!</h1>
     <form method="POST" action="">
         {% csrf_token %}  
-
-        <h1 class="h1 mb-3 fw-semibold text-center">Let's Register!</h1>
-        
         <div class="form-floating">
             <input type="text" class="form-control" name="username" autocapitalize="none" autocomplete="username" autofocus placeholder="Enter username" required>
             <label for="username">Username</label>
@@ -89,7 +87,10 @@
                 <p class="text-muted">{{ message }}</p>
             {% endfor %}
         {% endif %}        
-        <p class="mt-3 mb-3">Already have an account? <a href="{% url 'todolist:login' %}" style="color: white; font-weight: bolder;">Login</a></p>        
+        <p class="mt-3 mb-3">Already have an account? <a href="{% url 'todolist:login' %}" class="text-light fw-bold">Login</a></p>        
     </form>  
 </main>
-{% endblock content %} 
+{% endblock content %}
+
+
+
