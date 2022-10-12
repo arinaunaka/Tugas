@@ -44,7 +44,7 @@
   }
 
   .card:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
   }
 
@@ -81,7 +81,68 @@
       width:25%;
     }
   }
- </style>
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+      $.get("/todolist/json", function(data) {
+        for (i=0; i < data.length; i++){
+          let status = (data[i].fields.is_finished) ? 'Finished':'Not Finished';
+          $(".row").append(`
+          <div class="col">
+            <div class="card shadow m-auto h-100" style="width: 18rem;">
+              <div class="card-body">
+                <form action="/todolist/delete/${data[i].pk}" method="POST">
+                  {% csrf_token %}
+                  <a href="delete/${data[i].pk}" class="delete" style="text-decoration:solid">🗑️</a>
+                </form>
+                <h5 class="card-title fw-bold" style="max-width:14rem">${data[i].fields.title}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Created: ${data[i].fields.date}</h6>
+                <p class="card-text">${data[i].fields.description}</p>
+              </div>
+              <div class="card-footer">
+                <form action="/todolist/status/${data[i].pk}" method="POST">
+                  {% csrf_token %}
+                  <button type="button" class="btn btn-dark btn-sm text-light" style="float:right" onclick="location.href='/todolist/status/${data[i].pk}'">Change</button>
+                  <p class="mt-1 mb-0" style="float:left">${status}</p>
+                </form>
+              </div>
+            </div>
+          </div>`)
+        }
+      });
+
+      $("#add-button").click(function(){
+        const title = $("#task-title").val()
+        const description = $("#task-description").val()
+        const data = {title:title, description:description, csrfmiddlewaretoken:'{{csrf_token}}'}
+        $.ajax({url:"/todolist/add/", type:"POST", data:data}).done(function (response) {
+          $(".row").append(`
+          <div class="col">
+            <div class="card shadow m-auto h-100" style="width: 18rem;">
+              <div class="card-body">
+                <form action="/todolist/delete/${response.pk}" method="POST">
+                  {% csrf_token %}
+                  <a href="delete/${response.pk}" class="delete" style="text-decoration:solid">🗑️</a>
+                </form>                
+                <h5 class="card-title fw-bold" style="max-width:14rem">${response.fields.title}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Created: ${response.fields.date}</h6>
+                <p class="card-text">${response.fields.description}</p>
+              </div>
+              <div class="card-footer">
+                <form action="/todolist/status_ajax/${response.pk}" method="POST">
+                  {% csrf_token %}
+                  <button type="button" class="btn btn-dark btn-sm text-light" style="float:right" onclick="location.href='/todolist/status/${response.pk}'">Change</button>
+                  <p class="mt-1 mb-0" style="float:left">{% if task.is_finished %} Finished {% else %} Not Finished {% endif %}</p>
+                </form>
+              </div>
+            </div>
+          </div>`)
+        }
+        )
+      })
+  });
+</script>
 {% endblock meta %}
 
 {% block content %}
@@ -98,30 +159,39 @@
   </div>
   <div class="content">
     <div class="row row-cols-1 g-4">
-      {% for task in list_task %}
-      <div class="col">
-        <div class="card shadow m-auto h-100" style="width:18rem;">
-          <div class="card-body">
-            <a href="{% url 'todolist:delete' task.id %}" class="delete" style="text-decoration:solid">🗑️</a>
-            <h5 class="card-title fw-semibold" style="max-width:14rem">{{task.title}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Created: {{task.date}}</h6>
-            <p class="card-text">{{task.description}}</p>
-          </div>
-          <div class="card-footer">
-            {% if task.is_finished %}
-            <p class="mt-1 mb-0" style="float:left">Finished</p>
-            {% else %}
-            <p class="mt-1 mb-0" style="float:left">Not Finished</p>
-            {% endif %}
-            <button type="button" class="btn btn-dark btn-sm" style="float:right"><a class="text-light" href="{% url 'todolist:status' task.id %}" style="text-decoration:solid">Change</a></button>
-          </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 fw-bold" id="taskModalLabel">Add New Task</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="task-title" class="col-form-label fw-semibold">Title:</label>
+              <input type="text" class="form-control" required id="task-title" placeholder="Task Title">
+            </div>
+            <div class="mb-3">
+              <label for="task-description" class="col-form-label fw-semibold">Description:</label>
+              <textarea class="form-control" required id="task-description" placeholder="Task Description"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="add-button">Add</button>
         </div>
       </div>
-      {% endfor %}
     </div>
   </div>
   <div class="button text-center">
-    <button type="button" class="btn btn-outline-dark btn-lg mt-5 mb-5 fw-bold" onclick="location.href='/todolist/create-task'">Create New Task</button> 
+    <button type="button" class="btn btn-outline-dark btn-lg mt-5 mb-5 fw-bold" data-bs-toggle="modal" data-bs-target="#taskModal">Add Task</button>
+    <!-- <button type="button" class="btn btn-outline-dark btn-lg mt-5 mb-5 fw-bold" onclick="location.href='/todolist/create-task'">Create New Task</button>  -->
   </div>
   </div>
 </main>

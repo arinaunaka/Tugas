@@ -11,4 +11,6 @@ urlpatterns = [
     path('create-task/', create_task, name='create_task'),
     path('status/<int:id>/', status, name='status'),
     path('delete/<int:id>/', delete, name='delete'),
+    path('add/', add_task, name='add_task'),
+    path('json/', show_json, name='show_json'),
 ]

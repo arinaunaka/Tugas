@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from todolist.models import Task
 from django.contrib.auth.models import User
+from django.core import serializers
+import datetime
 
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
@@ -102,3 +104,23 @@ def create_task(request):
             return redirect("todolist:show_todolist")
 
     return render(request, "createtask.html")
+
+def show_json(request):
+    data = Task.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def add_task(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        task = Task.objects.create(title=title, description=description, date=datetime.date.today(), is_finished=False, user=request.user)
+        todolist = {
+            'pk':task.pk,
+            'fields':{
+                'title':task.title,
+                'description':task.description,
+                'is_finished':task.is_finished,
+                'date':task.date,
+            }
+        }
+        return JsonResponse(todolist)
