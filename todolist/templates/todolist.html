@@ -141,6 +141,10 @@
         }
         )
       })
+      
+      $('#taskModal').on('hidden.bs.modal', function () {
+        $('#taskModal form')[0].reset();
+      });
   });
 </script>
 {% endblock meta %}
